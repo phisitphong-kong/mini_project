@@ -74,8 +74,10 @@ if (!isset($_SESSION['admin_login'])) {
  $result = $stmt->fetchAll();
 }else{
   //คิวรี่ข้อมูลมาแสดงตามปกติ *แสดงทั้งหมด
- $stmt = $conn->prepare("SELECT reserve.room_id,regis_user.STUDENT_LOG,regis_user.STUDENT_FNAME,regis_user.STUDENT_LNAME,regis_user.STUDENT_SEX,regis_user.STUDENT_DEPT,reserve.reserve_date,reserve.reserve_expiredate,reserve.reserve_status FROM regis_user
- INNER JOIN reserve ON reserve.student_id = regis_user.STUDENT_ID WHERE reserve.reserve_status = 'จองแล้ว'");
+ $stmt = $conn->prepare("SELECT reserve.room_id,regis_user.STUDENT_LOG,regis_user.STUDENT_FNAME,regis_user.STUDENT_LNAME,regis_user.STUDENT_SEX,regis_user.STUDENT_DEPT,reserve.reserve_date,reserve.reserve_expiredate,admin_add.ROOM_STATUS FROM regis_user
+ INNER JOIN reserve ON reserve.student_id = regis_user.STUDENT_ID
+ INNER JOIN admin_add ON admin_add.ROOM_ID = reserve.room_id
+ WHERE admin_add.ROOM_STATUS = 'จองแล้ว';");
  $stmt->execute();
  $result = $stmt->fetchAll();
 }?>
