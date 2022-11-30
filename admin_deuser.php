@@ -58,16 +58,18 @@ if (!isset($_SESSION['admin_login'])) {
  $q = $_POST['q'];
 
  //คิวรี่ข้อมูลมาแสดงจากการค้นหา
- $stmt = $conn->prepare("SELECT reserve.room_id,regis_user.STUDENT_LOG,regis_user.STUDENT_FNAME,regis_user.STUDENT_LNAME,regis_user.STUDENT_SEX,regis_user.STUDENT_DEPT,reserve.reserve_date,reserve.reserve_expiredate,reserve.reserve_status FROM regis_user
- INNER JOIN reserve ON reserve.student_id = regis_user.STUDENT_ID WHERE reserve.reserve_status = 'จองแล้ว' AND reserve.room_id like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND regis_user.STUDENT_LOG like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND regis_user.STUDENT_FNAME like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND regis_user.STUDENT_LNAME like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND regis_user.STUDENT_SEX like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND regis_user.STUDENT_DEPT like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND reserve.reserve_date like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND reserve.reserve_expiredate like '%$q%' 
- or reserve.reserve_status = 'จองแล้ว' AND reserve.reserve_status like '%$q%' ");
+ $stmt = $conn->prepare("SELECT reserve.room_id,regis_user.STUDENT_LOG,regis_user.STUDENT_FNAME,regis_user.STUDENT_LNAME,regis_user.STUDENT_SEX,regis_user.STUDENT_DEPT,reserve.reserve_date,reserve.reserve_expiredate,admin_add.ROOM_STATUS FROM regis_user
+ INNER JOIN reserve ON reserve.student_id = regis_user.STUDENT_ID
+ INNER JOIN admin_add ON admin_add.ROOM_ID = reserve.room_id
+ WHERE admin_add.ROOM_STATUS = 'จองแล้ว' AND reserve.room_id like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND regis_user.STUDENT_LOG like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND regis_user.STUDENT_FNAME like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND regis_user.STUDENT_LNAME like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND regis_user.STUDENT_SEX like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND regis_user.STUDENT_DEPT like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND reserve.reserve_date like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND reserve.reserve_expiredate like '%$q%' 
+ or admin_add.ROOM_STATUS = 'จองแล้ว' AND admin_add.ROOM_STATUS like '%$q%' ");
  
  $stmt->execute();
 
@@ -127,7 +129,7 @@ if (!isset($_SESSION['admin_login'])) {
                         <td><?php echo $row['reserve_date']; ?></td>                     
                         <td><?php echo $row['reserve_expiredate']; ?></td>
                         
-                        <td><?php echo $row['reserve_status']; ?></td>
+                        <td><?php echo $row['ROOM_STATUS']; ?></td>
                         
                                 <br><br>
                                
